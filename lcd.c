@@ -103,7 +103,41 @@ void cmd_init()
  */
 void cmd_color(int argc, char **argv)
 {
-	printf("color\n");
+	require_argc(argc, 3);
+
+	int color;
+	if (arg_is(argv[2], "red"))
+	{
+		color = AF_RED;
+	}
+	else if (arg_is(argv[2], "green"))
+	{
+		color = AF_GREEN;
+	}
+	else if (arg_is(argv[2], "blue"))
+	{
+		color = AF_BLUE;
+	}
+	else
+	{
+		invalid_args();
+	}
+
+	int state;
+	if (arg_is(argv[3], "on"))
+	{
+		state = LOW;
+	}
+	else if (arg_is(argv[3], "off"))
+	{
+		state = HIGH;
+	}
+	else
+	{
+		invalid_args();
+	}
+
+	digitalWrite(color, state);
 }
 
 /**
