@@ -27,7 +27,7 @@ Pass all 8 rows as a pixel mask 0 - 31.
 Use online tools like http://www.quinapalus.com/hd44780udg.html for generation.
 
 Example that should give you a nice image of Euro sign:  
-`./lcd init  
-./lcd color green on  
-./lcd char 0 0 6 9 30 8 30 9 6  
-./lcd write "This is Euro: \0"`
+`./lcd init`  
+`./lcd color green on`  
+`./lcd char 0 0 6 9 30 8 30 9 6`  
+`./lcd write "This is Euro: \0"`
