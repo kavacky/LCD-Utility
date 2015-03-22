@@ -56,31 +56,21 @@ void init_leds_and_buttons() {
  */
 void cmd_help()
 {
-	printf("Available commands:\n");
+	printf("\nAvailable commands:\n");
 	printf("\n");
-	printf("init - Initialiazes LEDs and buttons. Use only once in the beginning.\n");
-	printf("color red|green|blue on|off - One LED at a time. Use as many times as necessary for desired effect.\n");
-	printf("button select|up|down|left|right - Get the current state of a button. 0 - released, 1 - pressed.\n");
-	printf("write <text> - Always starts at the beginning, so you must pass the whole text to be displayed. Display custom characters with '\\0' - '\\8'.\n");
-	printf("char <slot> <row1> <row2> ... <row8> - Set custom character in slots 0 - 8. Pass all 8 rows as a pixel mask 0 - 31. You can use online tools (http://www.quinapalus.com/hd44780udg.html) for generation.\n");
-	printf("\n");
-	printf("\n");
-	printf("\n");
-	printf("\n");
-	printf("\n");
-	printf("\n");
-	printf("\n");
-	printf("\n");
-	printf("\n");
-	printf("\n");
-	printf("\n");
-	printf("\n");
-	printf("\n");
-	printf("\n");
-	printf("\n");
-	printf("\n");
-	printf("\n");
-	printf("\n");
+	printf("lcd init\n");
+	printf("Initialiazes LEDs and buttons. Use only once in the beginning.\n\n");
+	printf("lcd color red|green|blue on|off\n");
+	printf("One LED at a time. Use as many times as necessary for desired effect.\n\n");
+	printf("lcd button select|up|down|left|right\n");
+	printf("Get the current state of a button. 0 - released, 1 - pressed.\n\n");
+	printf("lcd write <text>\n");
+	printf("Always starts at the beginning, so you must pass the whole text to be displayed.\n");
+	printf("Display custom characters with '\\0' - '\\8'.\n\n");
+	printf("lcd char <slot> <row1> <row2> ... <row8>\n");
+	printf("Set custom character in slots 0 - 8.\n");
+	printf("Pass all 8 rows as a pixel mask 0 - 31.\n");
+	printf("Use online tools like http://www.quinapalus.com/hd44780udg.html for generation.\n\n");
 }
 
 /**
