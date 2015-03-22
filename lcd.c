@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <wiringPi.h>
 #include <mcp23017.h>
 #include <lcd.h>
@@ -52,16 +54,33 @@ void init_leds_and_buttons() {
 /**
  *
  */
+void cmd_help()
+{
+	printf("halp now\n");
+}
+
+/**
+ *
+ */
+void invalid_args()
+{
+	printf("Invalid arguments.\n\n");
+	cmd_help();
+	exit(1);
+}
+
+/**
+ *
+ */
 void require_argc(int argc, int min_count)
 {
 	if (argc < min_count + 1) // 0th is filename
 	{
-		printf("Invalid arguments.\n\n");
+		printf("Invalid argument count.\n\n");
 		cmd_help();
 		exit(1);
 	}
 }
-
 
 /**
  *
@@ -69,14 +88,6 @@ void require_argc(int argc, int min_count)
 int arg_is(char *arg, char *val)
 {
 	return strcmp(arg, val) == 0;
-}
-
-/**
- *
- */
-void cmd_help()
-{
-	printf("halp now\n");
 }
 
 /**
@@ -116,7 +127,35 @@ void cmd_write(int argc, char **argv)
  */
 void cmd_button(int argc, char **argv)
 {
-	printf("button\n");
+	require_argc(argc, 2);
+
+	int button;
+	if (arg_is(argv[2], "select"))
+	{
+		button = AF_SELECT;
+	}
+	else if (arg_is(argv[2], "up"))
+	{
+		button = AF_UP;
+	}
+	else if (arg_is(argv[2], "down"))
+	{
+		button = AF_DOWN;
+	}
+	else if (arg_is(argv[2], "left"))
+	{
+		button = AF_LEFT;
+	}
+	else if (arg_is(argv[2], "right"))
+	{
+		button = AF_RIGHT;
+	}
+	else
+	{
+		invalid_args();
+	}
+
+	printf("%d\n", digitalRead(button) == LOW); // LOW == pressed
 }
 
 /**
