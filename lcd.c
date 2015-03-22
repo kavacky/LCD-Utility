@@ -179,7 +179,7 @@ void restore_state()
 		}
 		else
 		{
-			lcdPutchar(lcd, c - 48);
+			lcdPutchar(lcd, c - 48); // ASCII char "0" to int 0
 			special = 0;
 		}
 	}
@@ -193,14 +193,13 @@ void cmd_char(int argc, char **argv)
 {
 	require_argc(argc, 10);
 
-	// :TODO: check bounds 8 max 0-7
 	int position = atoi(argv[2]);
 	unsigned char img[8];
 
 	int i;
 	for (i = 0; i < 8; i++)
 	{
-		img[i] = atoi(argv[i +3]); // TODO: check bounds 5x8 0-31
+		img[i] = atoi(argv[i +3]);
 	}
 
 	int lcd = lcdInit(2, 16, 4, AF_RS, AF_E, AF_DB4, AF_DB5, AF_DB6, AF_DB7, 0, 0, 0, 0);
