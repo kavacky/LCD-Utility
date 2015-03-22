@@ -140,12 +140,73 @@ void cmd_color(int argc, char **argv)
 	digitalWrite(color, state);
 }
 
+void set_state(char *text)
+{
+	FILE *f;
+	f = fopen("state", "w");
+	fprintf(f, text);
+	fclose(f);
+}
+
+void restore_state()
+{
+	int lcd = lcdInit(2, 16, 4, AF_RS, AF_E, AF_DB4, AF_DB5, AF_DB6, AF_DB7, 0, 0, 0, 0);
+	lcdPosition(lcd, 0, 0);
+
+	FILE *f;
+	char c;
+	int special = 0;
+
+	f = fopen("state", "r");
+	while (1)
+	{
+		c = fgetc(f);
+		if (feof(f))
+		{
+			break;
+		}
+
+		if (!special)
+		{
+			if (c == '\\')
+			{
+				special = 1;
+			}
+			else
+			{
+				lcdPutchar(lcd, c);
+			}
+		}
+		else
+		{
+			lcdPutchar(lcd, c - 48);
+			special = 0;
+		}
+	}
+	fclose(f);
+}
+
 /**
  *
  */
 void cmd_char(int argc, char **argv)
 {
-	printf("char\n");
+	require_argc(argc, 10);
+
+	// :TODO: check bounds 8 max 0-7
+	int position = atoi(argv[2]);
+	unsigned char img[8];
+
+	int i;
+	for (i = 0; i < 8; i++)
+	{
+		img[i] = atoi(argv[i +3]); // TODO: check bounds 5x8 0-31
+	}
+
+	int lcd = lcdInit(2, 16, 4, AF_RS, AF_E, AF_DB4, AF_DB5, AF_DB6, AF_DB7, 0, 0, 0, 0);
+	lcdCharDef(lcd, position, img);
+
+	restore_state();
 }
 
 /**
@@ -153,7 +214,9 @@ void cmd_char(int argc, char **argv)
  */
 void cmd_write(int argc, char **argv)
 {
-	printf("write\n");
+	require_argc(argc, 2);
+	set_state(argv[2]);
+	restore_state();
 }
 
 /**
@@ -201,8 +264,6 @@ int main (int argc, char **argv)
 	wiringPiSetup();
 	mcp23017Setup(AF_BASE, 0x20);
 
-	int lcd;
-
 	require_argc(argc, 1);
 
 	if (arg_is(argv[1], "init"))
@@ -230,6 +291,5 @@ int main (int argc, char **argv)
 		cmd_help();
 	}
 
-	printf("END\n");
 	return 0;
 }
