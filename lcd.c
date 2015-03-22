@@ -87,7 +87,7 @@ void cmd_help()
  */
 void cmd_init()
 {
-	printf("init\n");
+	init_leds_and_buttons();
 }
 
 /**
