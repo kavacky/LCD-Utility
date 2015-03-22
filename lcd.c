@@ -52,16 +52,13 @@ void init_leds_and_buttons() {
 /**
  *
  */
-int require_argc(int argc, int min_count)
+void require_argc(int argc, int min_count)
 {
-	if (argc >= min_count + 1) // 0th is filename
+	if (argc < min_count + 1) // 0th is filename
 	{
-		return 1;
-	}
-	else
-	{
-		printf("Invalid arguments.\n");
-		return 0;
+		printf("Invalid arguments.\n\n");
+		cmd_help();
+		exit(1);
 	}
 }
 
@@ -133,11 +130,7 @@ int main (int argc, char **argv)
 
 	int lcd;
 
-	if (!require_argc(argc, 1))
-	{
-		cmd_help();
-		return 0;
-	}
+	require_argc(argc, 1);
 
 	if (arg_is(argv[1], "init"))
 	{
